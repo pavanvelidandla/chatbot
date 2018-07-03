@@ -24,7 +24,7 @@ func basicAuth(project string) string {
 	var username string = "user1"
 	var passwd string = "abcdef"
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", "http://18.219.168.27:8080/job/"+project+"/build", nil)
+	req, err := http.NewRequest("POST", "http://localhost:8080/job/"+project+"/build", nil)
 	req.SetBasicAuth(username, passwd)
 	resp, err := client.Do(req)
 	if err != nil {
@@ -40,7 +40,7 @@ func basicStatus(project string) (string, string) {
 	var username string = "user1"
 	var passwd string = "abcdef"
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "http://18.219.168.27:8080/job/"+project+"/lastBuild/api/json", nil)
+	req, err := http.NewRequest("GET", "http://localhost:8080/job/"+project+"/lastBuild/api/json", nil)
 	req.SetBasicAuth(username, passwd)
 	resp, err := client.Do(req)
 	if err != nil {
@@ -97,7 +97,7 @@ func main() {
 
 	//go controller.Start()
 	mm := &mattermostapi.MatterMost{
-		Url:         "http://18.219.168.27:8065",
+		Url:         "http://localhost:8065",
 		UserName:    "bot",
 		Password:    "12345",
 		TeamName:    "chatbot",
@@ -107,13 +107,11 @@ func main() {
 	client := mm.GetClient()
 
 	log.Println(" Channle Id in main " + mm.ChannelId)
-	webSocketClient, err := model.NewWebSocketClient4("ws://18.219.168.27:8065", client.AuthToken)
+	webSocketClient, err := model.NewWebSocketClient4("ws://localhost:8065", client.AuthToken)
 	if err != nil {
 		println("We failed to connect to the web socket")
 		log.Fatal(err)
 	}
-
-	
 
 	webSocketClient.Listen()
 
@@ -221,7 +219,7 @@ func ProcessMessage(postedmessage *model.Post, mc *mattermostapi.MatterMost) {
 				log.Println("Trying to call the jenkins")
 				_ = basicAuth(appname)
 				result, number := basicStatus(appname)
-				retrunUrl := "http://18.219.168.27:8080/job/" + appname + "/" + number
+				retrunUrl := "http://localhost:8080/job/" + appname + "/" + number
 				if result == "" {
 					result = "In Progress"
 				}
