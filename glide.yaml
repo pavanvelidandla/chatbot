@@ -1,0 +1,26 @@
+package: DeployBot
+import:
+- package: github.com/Sirupsen/logrus
+  version: ^1.0.4
+- package: github.com/mattermost/mattermost-server
+  version: ^4.6.0
+  subpackages:
+  - model
+- package: k8s.io/api
+  subpackages:
+  - apps/v1beta1
+  - core/v1
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+  - pkg/runtime
+  - pkg/util/runtime
+  - pkg/util/wait
+  - pkg/watch
+- package: k8s.io/client-go
+  version: ^6.0.0
+  subpackages:
+  - kubernetes
+  - tools/cache
+  - tools/clientcmd
+  - util/workqueue
